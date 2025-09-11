@@ -1,0 +1,59 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap");
+@import "tailwindcss";
+.font-playfair {
+  font-family: "Playfair Display", serif;
+}
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+}
+
+
+
+
+/* Card Flip Animation */
+.card {
+  perspective: 1000px;
+  height: 350px;
+  width: 280px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Confetti */
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+

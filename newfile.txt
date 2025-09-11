@@ -1,0 +1,46 @@
+Hãy viết nội dung listing Amazon cho sản phẩm Positive elephant     Jar.   
+Sản phẩm là lọ chứa 60 card positive hình elephant , phù hợp làm quà tặng – ví dụ: lọ chứa 60 card affirmative theo chủ đề emotional support elephant     .
+
+Yêu cầu chi tiết:
+1. **Title**  
+   • Bao gồm   "emotional support gnome
+   positive gnomes  jar
+"
+"encouraging gnomes mini
+"
+
+"gnome birthday decorations
+"
+"gnome gifts
+"
+"encouragement gifts
+"
+mini gnomes bulk
+"inspirational gifts for women
+"
+gift for friend woman
+
+"emotional support
+"
+   • Chiều dài khoảng 180–200 ký tự, không lặp lại cùng một từ quá hai lần, không dùng ký tự đặc biệt và phải tuân thủ quy định tiêu đề Amazon:contentReference[oaicite:2]{index=2}.  
+   • Sắp xếp từ khóa quan trọng đầu tiêu đề; nêu rõ loại sản phẩm, số lượng card, công dụng (positive affirmation, stress relief…), và đối tượng chính.  
+
+2. **Bullet Points (5)**   ( chuyển tiếng anh )  
+   • Mỗi bullet nêu một lợi ích hoặc đặc điểm nổi bật và lồng ghép từ 2–3 từ khóa Nhóm 1 & 2.  
+   • Bullet 1: Lợi ích tinh thần (affirmations, emotional support, stress relief).  
+   • Bullet 2: Thiết kế/đặc điểm thú vị của [ThemeKeywords].  
+   • Bullet 3: Cách sử dụng (rút thẻ mỗi ngày tạo thói quen positivity…).  
+   • Bullet 4: Đối tượng phù hợp (teen, người lớn, bạn bè, đồng nghiệp…).  
+   • Bullet 5: Chất lượng sản phẩm (chất liệu lọ, giấy in, độ bền):contentReference[oaicite:3]{index=3}.  
+
+3. **Description**   ( chuyển tiếng anh ) 
+   • Viết khoảng 300–400 từ, chia đoạn rõ ràng.  
+   • Kể câu chuyện sản phẩm, nêu lợi ích tinh thần (daily positivity, encouragement), và mô tả chi tiết thiết kế.  
+   • Không dùng HTML; lặp lại những lợi ích đã nêu trong bullet với chi tiết hơn:contentReference[oaicite:4]{index=4}.  
+   • Lồng ghép nhiều từ khóa Nhóm 1 & 2 cũng như các biến thể đồng nghĩa (affirmation jar, motivation cards…).  
+
+4. **Generic Keywords (backend)**  
+   • Liệt kê các từ khóa chưa xuất hiện ở title/bullet/description, bao gồm: biến thể từ khóa Nhóm 1 & 2, từ đồng nghĩa, từ viết sai, và long‑tail (ví dụ: uplifting notes, motivational jar, daily positive quotes).  
+   • Không lặp lại từ khóa đã dùng; không dùng tên thương hiệu cạnh tranh; giữ tổng số ký tự ≤250 byte:contentReference[oaicite:5]{index=5}.  
+
+Mục tiêu: Tối ưu mức độ liên quan và trải nghiệm người dùng để sản phẩm mới nhanh chóng xuất hiện trong kết quả tìm kiếm Amazon theo A10:contentReference[oaicite:6]{index=6}.
