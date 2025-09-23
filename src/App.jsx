@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import feather from "feather-icons";
 import { useEffect } from "react";
+import parse from "html-react-parser";
 
 const cardDecks = {
   business: [
-    "Thị trường luôn đúng. Đừng cố chống lại xu hướng.",
-    "Rủi ro lớn nhất là không chấp nhận rủi ro nào. - Mark Zuckerberg",
-    "Hãy tìm ra điều bạn thích làm rồi tìm cách kiếm tiền từ nó.",
-    "Thành công trong kinh doanh đòi hỏi sự kiên nhẫn và tầm nhìn dài hạn.",
-    "Khách hàng hài lòng là quảng cáo tốt nhất cho doanh nghiệp.",
+    "<b>Chiến Thắng Trò Chơi Bên Trong</b> <br> 🔮 Phương pháp BÙA – CHÚ : Dán xung quanh nhắc nhở mình, thể hiện năng lượng cao và đọc thường xuyên “THAY VÌ NÓI TÔI NGU LẮM → TÔI GIỎI LẮM.NẾU NHẬN MÌNH NGU MÌNH SẼ DỪNG HÀNH ĐỘNG  ",
+
   ],
   finance: [
     "Tiết kiệm tiền là kiếm tiền. - Benjamin Franklin",
@@ -68,39 +66,36 @@ function App() {
         {activeDeck === "business"
           ? "Kinh Doanh"
           : activeDeck === "finance"
-          ? "Tài Chính"
-          : "Tạo Động Lực"}{" "}
+            ? "Tài Chính"
+            : "Tạo Động Lực"}{" "}
         Hôm Nay
       </h1>
 
       <div className="flex gap-4 mb-6">
         <button
           onClick={() => changeDeck("business")}
-          className={`px-4 py-2 rounded-lg ${
-            activeDeck === "business"
+          className={`px-4 py-2 rounded-lg ${activeDeck === "business"
               ? "bg-indigo-600 text-white"
               : "bg-gray-200 text-gray-700"
-          }`}
+            }`}
         >
           Kinh Doanh
         </button>
         <button
           onClick={() => changeDeck("finance")}
-          className={`px-4 py-2 rounded-lg ${
-            activeDeck === "finance"
+          className={`px-4 py-2 rounded-lg ${activeDeck === "finance"
               ? "bg-indigo-600 text-white"
               : "bg-gray-200 text-gray-700"
-          }`}
+            }`}
         >
           Tài Chính
         </button>
         <button
           onClick={() => changeDeck("motivation")}
-          className={`px-4 py-2 rounded-lg ${
-            activeDeck === "motivation"
+          className={`px-4 py-2 rounded-lg ${activeDeck === "motivation"
               ? "bg-indigo-600 text-white"
               : "bg-gray-200 text-gray-700"
-          }`}
+            }`}
         >
           Động Lực
         </button>
@@ -110,9 +105,8 @@ function App() {
         {[0, 1, 2].map((index) => (
           <div
             key={index}
-            className={`card ${
-              flippedCards[index] ? "flipped" : ""
-            } cursor-pointer`}
+            className={`card ${flippedCards[index] ? "flipped" : ""
+              } cursor-pointer`}
             onClick={() => flipCard(index)}
           >
             <div className="card-inner">
@@ -134,7 +128,7 @@ function App() {
                   className="w-16 h-16 mb-6 text-amber-500"
                 ></i>
                 <p className="text-lg md:text-xl text-center font-medium text-gray-800 font-poppins">
-                  {currentMessages[index]}
+                  {parse(currentMessages[index])}
                 </p>
               </div>
             </div>
