@@ -5,8 +5,8 @@ import parse from "html-react-parser";
 
 const cardDecks = {
   business: [
-    "<b>Chiến Thắng Trò Chơi Bên Trong</b> <br> 🔮 Phương pháp BÙA – CHÚ : Dán xung quanh nhắc nhở mình, thể hiện năng lượng cao và đọc thường xuyên “THAY VÌ NÓI TÔI NGU LẮM → TÔI GIỎI LẮM.NẾU NHẬN MÌNH NGU MÌNH SẼ DỪNG HÀNH ĐỘNG  ",
-
+    "<b>🏆 Chiến Thắng Trò Chơi Bên Trong</b> <br><br> <p>🔮 BÙA – CHÚ :</p><br>  Dán xung quanh nhắc nhở mình, thể hiện năng lượng cao và đọc thường xuyên<br><br> “THAY VÌ NÓI TÔI NGU LẮM → TÔI GIỎI LẮM.NẾU NHẬN MÌNH NGU MÌNH SẼ DỪNG HÀNH ĐỘNG  ",
+    "<b>🌟 Khó khăn & Thành công</b> <br> <br> Khó khăn là bài kiểm tra của cuộc sống. Người thành công xem khó khăn như thử thách, kẻ bỏ cuộc thì coi thử thách là khó khăn.<br> <br> 💡 Kết luận: Khó khăn chỉ đo năng lực, không phải để ngăn bạn tiến lên."
   ],
   finance: [
     "Tiết kiệm tiền là kiếm tiền. - Benjamin Franklin",
@@ -75,8 +75,8 @@ function App() {
         <button
           onClick={() => changeDeck("business")}
           className={`px-4 py-2 rounded-lg ${activeDeck === "business"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-200 text-gray-700"
+            ? "bg-indigo-600 text-white"
+            : "bg-gray-200 text-gray-700"
             }`}
         >
           Kinh Doanh
@@ -84,8 +84,8 @@ function App() {
         <button
           onClick={() => changeDeck("finance")}
           className={`px-4 py-2 rounded-lg ${activeDeck === "finance"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-200 text-gray-700"
+            ? "bg-indigo-600 text-white"
+            : "bg-gray-200 text-gray-700"
             }`}
         >
           Tài Chính
@@ -93,8 +93,8 @@ function App() {
         <button
           onClick={() => changeDeck("motivation")}
           className={`px-4 py-2 rounded-lg ${activeDeck === "motivation"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-200 text-gray-700"
+            ? "bg-indigo-600 text-white"
+            : "bg-gray-200 text-gray-700"
             }`}
         >
           Động Lực
