@@ -60,3 +60,117 @@
   }
 }
 
+.card-front {
+  min-height: 350px;
+}
+
+/* Card-back chỉ cao bằng front, ẩn phần dư + gradient báo còn nội dung */
+.truncate-back {
+  /* bằng với front */
+  min-height: 350px;
+  max-height: 350px; 
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Lớp mờ ở đáy để gợi ý "còn chữ" */
+.truncate-back::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 64px;
+  pointer-events: none;
+  /* mờ từ trong suốt đến màu nền */
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255, 237, 213, 0.9));
+  /* lưu ý: màu này nên gần với gradient to-yellow-100; tùy theme bạn có thể chỉnh lại */
+}
+
+/* Chip gợi ý click để xem thêm */
+.read-more-chip {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  padding: 8px 10px;
+  border-radius: 999px;
+  backdrop-filter: saturate(120%) blur(2px);
+}
+
+/* Nội dung trong card-back (không scroll ở card) */
+.back-content {
+  max-height: calc(350px - 24px - 64px - 48px); 
+  /* 350: chiều cao; trừ padding 24*2 nếu cần; trừ 64px gradient; trừ icon/spacing 48px
+     Bạn có thể tinh chỉnh số này theo layout thực tế */
+  overflow: hidden;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(17, 24, 39, 0.55); /* gray-900/55 */
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.modal-dialog {
+  width: 100%;
+  max-width: 680px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  display: flex; flex-direction: column;
+  max-height: 85vh;
+  overflow: hidden;
+}
+
+.modal-header, .modal-footer {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.modal-footer { 
+  border-top: 1px solid rgba(0,0,0,0.06);
+  border-bottom: none;
+}
+
+.modal-title {
+  margin: 0;
+  font-weight: 700;
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  color: #111827; /* gray-900 */
+}
+
+.modal-close {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: grid; place-items: center;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow: auto;   /* Cho phép scroll nội dung dài trong modal */
+  color: #111827;
+  line-height: 1.6;
+}
+
+.modal-btn {
+  background: #4f46e5; /* indigo-600 */
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-btn:hover { background: #4338ca; } /* indigo-700 */

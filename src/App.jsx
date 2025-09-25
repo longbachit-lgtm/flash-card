@@ -6,7 +6,10 @@ import parse from "html-react-parser";
 const cardDecks = {
   business: [
     "<b>🏆 Chiến Thắng Trò Chơi Bên Trong</b> <br><br> <p>🔮 BÙA – CHÚ :</p><br>  Dán xung quanh nhắc nhở mình, thể hiện năng lượng cao và đọc thường xuyên<br><br> “THAY VÌ NÓI TÔI NGU LẮM → TÔI GIỎI LẮM.NẾU NHẬN MÌNH NGU MÌNH SẼ DỪNG HÀNH ĐỘNG  ",
-    "<b>🌟 Khó khăn & Thành công</b> <br> <br> Khó khăn là bài kiểm tra của cuộc sống. Người thành công xem khó khăn như thử thách, kẻ bỏ cuộc thì coi thử thách là khó khăn.<br> <br> 💡 Kết luận: Khó khăn chỉ đo năng lực, không phải để ngăn bạn tiến lên."
+    "<b>🌟 Khó khăn & Thành công</b> <br> <br> Khó khăn là bài kiểm tra của cuộc sống. Người thành công xem khó khăn như thử thách, kẻ bỏ cuộc thì coi thử thách là khó khăn.<br> <br> 💡 Kết luận: Khó khăn chỉ đo năng lực, không phải để ngăn bạn tiến lên.",
+    "<b>🔑 Không thể hành động mà không có chiến lược rõ ràng</b> <br><br> Trước khi hành động → cần tư duy &amp; xây dựng chiến lược phù hợp.<br><br> 💡 Nguyên tắc: Đặt mục tiêu phải hoàn thành, hoàn thành không xong không ăn không uống không nghỉ.",
+    "<b>🌱 Cách đạt được mục tiêu hiệu quả</b> <br><br> 1. <b>Biết mình mong muốn gì</b><br> Xác định rõ mục tiêu trước khi bắt đầu học.<br> Mục tiêu càng cụ thể thì định hướng càng rõ ràng.<br><br> 2. <b>Hằng ngày kiểm tra, đo lường và đánh giá</b><br> Đặt thói quen phản chiếu (review) mỗi ngày.<br> Biết hôm nay mình học được gì, còn thiếu gì.<br><br> 3. <b>Càng làm nhiều lần bao nhiêu, càng giỏi bấy nhiêu</b><br> Thành công không đến từ số lượng việc bạn làm,<br> mà từ số lần lặp lại."
+
   ],
   finance: [
     "Tiết kiệm tiền là kiếm tiền. - Benjamin Franklin",
@@ -24,11 +27,23 @@ const cardDecks = {
   ],
 };
 
+
+
 function App() {
   const [flippedCards, setFlippedCards] = useState([false, false, false]);
   const [currentMessages, setCurrentMessages] = useState(["", "", ""]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [activeDeck, setActiveDeck] = useState("business");
+
+  // NEW: modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+
+  const openModal = (htmlString) => {
+    setModalContent(htmlString);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => setIsModalOpen(false);
 
   const flipCard = (index) => {
     if (!flippedCards[index]) {
@@ -57,7 +72,7 @@ function App() {
 
   useEffect(() => {
     feather.replace();
-  }, [flippedCards, activeDeck]);
+  }, [flippedCards, activeDeck, isModalOpen]);
 
   return (
     <div className="flex flex-col items-center">
@@ -105,36 +120,63 @@ function App() {
         {[0, 1, 2].map((index) => (
           <div
             key={index}
-            className={`card ${flippedCards[index] ? "flipped" : ""
-              } cursor-pointer`}
+            className={`card ${flippedCards[index] ? "flipped" : ""} cursor-pointer`}
             onClick={() => flipCard(index)}
           >
             <div className="card-inner">
               <div className="card-front bg-gradient-to-br from-indigo-600 to-blue-500 text-white">
                 <i
-                  data-feather={
-                    index === 0 ? "zap" : index === 1 ? "trending-up" : "star"
-                  }
+                  data-feather={index === 0 ? "zap" : index === 1 ? "trending-up" : "star"}
                   className="w-16 h-16 mb-6 text-yellow-300"
-                ></i>
-                <h2 className="text-2xl font-bold mb-2 text-center font-playfair">
-                  Thẻ {index + 1}
-                </h2>
+                />
+                <h2 className="text-2xl font-bold mb-2 text-center font-playfair">Thẻ {index + 1}</h2>
                 <p className="text-center opacity-90">Nhận lời khuyên hữu ích</p>
               </div>
-              <div className="card-back bg-gradient-to-br from-amber-50 to-yellow-100">
-                <i
-                  data-feather="award"
-                  className="w-16 h-16 mb-6 text-amber-500"
-                ></i>
-                <p className="text-lg md:text-xl text-center font-medium text-gray-800 font-poppins">
-                  {parse(currentMessages[index])}
+
+              {/* CARD BACK: click để mở modal */}
+              <div
+                className="card-back bg-gradient-to-br from-amber-50 to-yellow-100 truncate-back"
+                onClick={(e) => {
+                  e.stopPropagation(); // không lật ngược thêm
+                  openModal(currentMessages[index]);
+                }}
+                role="button"
+                title="Nhấn để xem chi tiết"
+              >
+                <i data-feather="award" className="w-16 h-16 mb-4 text-amber-500" />
+                <p className="text-lg md:text-xl text-center font-medium text-gray-800 font-poppins back-content">
+                  {parse(currentMessages[index] || "")}
                 </p>
+
+                {/* nhãn gợi ý */}
+           
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* MODAL */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">Nội dung chi tiết</h3>
+              <button className="modal-close" onClick={closeModal} aria-label="Đóng">
+                <i data-feather="x" />
+              </button>
+            </div>
+            <div className="modal-body font-poppins prose max-w-none">
+              {parse(modalContent || "")}
+            </div>
+            <div className="modal-footer">
+              <button className="modal-btn" onClick={closeModal}>
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <button
         onClick={resetAllCards}
