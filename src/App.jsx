@@ -138,7 +138,7 @@ function App() {
         {activeDeck === "business"
           ? "Kinh Doanh"
           : activeDeck === "manage"
-          ? "Quản lý"
+          ? "Quản Lý"
           : activeDeck === "social"
           ? "Mối Quan Hệ"
           : "Nội Tâm"}{" "}
@@ -174,7 +174,7 @@ function App() {
               : "bg-gray-200 text-gray-700"
           }`}
         >
-          Quản lý
+          Quản Lý
         </button>
         <button
           onClick={() => changeDeck("motivation")}
@@ -184,7 +184,7 @@ function App() {
               : "bg-gray-200 text-gray-700"
           }`}
         >
-          Nội tâm
+          Nội Tâm
         </button>
       </div>
 
