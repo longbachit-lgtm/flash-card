@@ -1,176 +1,127 @@
 /* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;600;700;900&display=swap");
 @import "tailwindcss";
+
+:root {
+  --primary: #6366f1;
+  --secondary: #94a3b8;
+  --accent: #f59e0b;
+  --bg-gradient: radial-gradient(circle at top left, #f8fafc 0%, #cbd5e1 100%);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  color: #0f172a;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  margin: 0;
+}
+
 .font-playfair {
-  font-family: "Playfair Display", serif;
-}
-.font-poppins {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Playfair Display', serif;
 }
 
-
-
-
-/* Card Flip Animation */
-.card {
-  perspective: 1000px;
-  min-height: 450px;
-  width: 280px;
+/* Glassmorphism Utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
 }
 
-.card-inner {
+/* Premium Card Styles */
+.card-container {
+  perspective: 2000px;
+  width: 340px;
+  height: 500px;
+}
+
+.card-content {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
-}
-
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
- 
-  backface-visibility: hidden;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-}
-.card-front {
-  min-height: 350px;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-}
-
-/* Confetti */
-@keyframes fall {
-  to {
-    transform: translateY(100vh) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-.card-front {
-  min-height: 350px;
-}
-
-/* Card-back chỉ cao bằng front, ẩn phần dư + gradient báo còn nội dung */
-.truncate-back {
-  /* bằng với front */
-  min-height: 350px;
-  max-height: 350px; 
-  overflow: hidden;
-  position: relative;
   cursor: pointer;
 }
 
-/* Lớp mờ ở đáy để gợi ý "còn chữ" */
-.truncate-back::after {
-  content: "";
+.card-container.flipped .card-content {
+  transform: rotateY(180deg);
+}
+
+.card-face {
   position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 64px;
-  pointer-events: none;
-  /* mờ từ trong suốt đến màu nền */
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255, 237, 213, 0.9));
-  /* lưu ý: màu này nên gần với gradient to-yellow-100; tùy theme bạn có thể chỉnh lại */
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 40px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
 }
 
-/* Chip gợi ý click để xem thêm */
-.read-more-chip {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.65);
-  color: #fff;
-  font-size: 12px;
-  line-height: 1;
-  padding: 8px 10px;
-  border-radius: 999px;
-  backdrop-filter: saturate(120%) blur(2px);
+.card-front {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+  color: white;
 }
 
-/* Nội dung trong card-back (không scroll ở card) */
-.back-content {
-  max-height: calc(350px - 24px - 64px - 48px); 
-  /* 350: chiều cao; trừ padding 24*2 nếu cần; trừ 64px gradient; trừ icon/spacing 48px
-     Bạn có thể tinh chỉnh số này theo layout thực tế */
-  overflow: hidden;
+.card-back {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e293b;
+  transform: rotateY(180deg);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-/* ===== Modal ===== */
+/* Modal Overlay */
 .modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(17, 24, 39, 0.55); /* gray-900/55 */
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9999;
-  padding: 16px;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
 }
 
 .modal-dialog {
-  width: 100%;
-  max-width: 680px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  display: flex; flex-direction: column;
-  max-height: 85vh;
-  overflow: hidden;
+  border-radius: 2.5rem;
 }
 
-.modal-header, .modal-footer {
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+/* Custom Scrollbar for Card/Modal */
+.scroll-hide::-webkit-scrollbar {
+  display: none;
 }
 
-.modal-footer { 
-  border-top: 1px solid rgba(0,0,0,0.06);
-  border-bottom: none;
+.scroll-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.modal-title {
-  margin: 0;
-  font-weight: 700;
-  font-family: "Playfair Display", serif;
-  font-size: 20px;
-  color: #111827; /* gray-900 */
+/* Admin UI Refinements */
+.admin-input {
+  @apply w-full px-5 py-4 rounded-2xl border border-slate-200 bg-white/70 focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 focus:outline-none transition-all duration-300 placeholder:text-slate-400 text-slate-700 shadow-sm;
 }
 
-.modal-close {
-  margin-left: auto;
-  background: transparent;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-  display: grid; place-items: center;
+.admin-btn {
+  @apply px-8 py-4 rounded-2xl font-black uppercase tracking-wider transition-all duration-500 transform active:scale-95 shadow-lg;
 }
 
-.modal-body {
-  padding: 20px;
-  overflow: auto;   /* Cho phép scroll nội dung dài trong modal */
-  color: #111827;
-  line-height: 1.6;
+.admin-btn-primary {
+  @apply bg-indigo-600 text-white shadow-indigo-200 hover:bg-indigo-700 hover:shadow-indigo-300;
 }
 
-.modal-btn {
-  background: #4f46e5; /* indigo-600 */
-  color: #fff;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
+/* Prose refinement */
+.prose-b {
+  @apply text-indigo-600 font-black;
 }
 
-.modal-btn:hover { background: #4338ca; } /* indigo-700 */
+.prose img {
+  @apply mx-auto my-6 border-4 border-indigo-50;
+}
