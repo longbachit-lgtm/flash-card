@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FlashCard from "./FlashCard";
 import feather from "feather-icons";
 import { motion, AnimatePresence } from "framer-motion";
+import parse from "html-react-parser";
 
 const Home = ({ decks, categories }) => {
     const [activeDeck, setActiveDeck] = useState(categories[0]?.id || "business");
@@ -87,8 +88,8 @@ const Home = ({ decks, categories }) => {
                             resetAllCards();
                         }}
                         className={`px-8 py-3.5 rounded-[1.5rem] text-sm font-bold transition-all duration-500 ${activeDeck === cat.id
-                                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-300 scale-105"
-                                : "text-slate-500 hover:text-indigo-600 hover:bg-white/50"
+                            ? "bg-indigo-600 text-white shadow-lg shadow-indigo-300 scale-105"
+                            : "text-slate-500 hover:text-indigo-600 hover:bg-white/50"
                             }`}
                     >
                         {cat.name}

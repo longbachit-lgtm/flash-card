@@ -37,7 +37,7 @@ const FlashCard = ({ flipped, frontContent, backContent, onFlip, index }) => {
         {/* Back Face */}
         <div className="card-face card-back glass border-2 border-indigo-50/50">
           <div className="absolute top-6 left-6 opacity-5">
-            <i data-feather="quote" className="w-12 h-12 text-indigo-900" />
+            <i data-feather="message-circle" className="w-12 h-12 text-indigo-900" />
           </div>
 
           <div className="w-full text-center font-medium text-slate-800 leading-relaxed overflow-y-auto max-h-[300px] scroll-hide px-2">
