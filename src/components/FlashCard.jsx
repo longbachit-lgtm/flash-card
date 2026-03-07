@@ -4,9 +4,12 @@ import parse from "html-react-parser";
 const FlashCard = ({ flipped, frontContent, backContent, onFlip, index }) => {
   return (
     <div className={`card-container ${flipped ? "flipped" : ""} group`}>
-      <div className="card-content" onClick={onFlip}>
+      <div className="card-content">
         {/* Front Face */}
-        <div className="card-face card-front bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-900 border border-white/10 overflow-hidden">
+        <div
+          onClick={onFlip}
+          className="card-face card-front bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-900 border border-white/10 overflow-hidden cursor-pointer"
+        >
           {/* Subtle patterns/glow */}
           <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
 

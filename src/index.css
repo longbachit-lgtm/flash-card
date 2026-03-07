@@ -110,7 +110,7 @@ body {
 }
 
 .admin-btn {
-  @apply px-8 py-4 rounded-2xl font-black uppercase tracking-wider transition-all duration-500 transform active:scale-95 shadow-lg;
+  @apply px-8 py-4 rounded-2xl font-bold font-sans uppercase tracking-wider transition-all duration-500 transform active:scale-95 shadow-lg;
 }
 
 .admin-btn-primary {
@@ -124,4 +124,8 @@ body {
 
 .prose img {
   @apply mx-auto my-6 border-4 border-indigo-50;
+}
+
+.quill-container .ql-container {
+  min-height: 180px;
 }

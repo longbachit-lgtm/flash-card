@@ -1,13 +1,27 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import feather from "feather-icons";
 import parse from "html-react-parser";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const Admin = ({ decks, categories, onSave }) => {
     const [editorDeck, setEditorDeck] = useState(categories[0]?.id || "business");
     const [newCardInput, setNewCardInput] = useState("");
-    const [editorColor, setEditorColor] = useState("#111827");
     const [editorImageUrl, setEditorImageUrl] = useState("");
-    const editorRef = useRef(null);
+    const [isAiLoading, setIsAiLoading] = useState(false);
+
+    // Quill Toolbar Modules
+    const modules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'align': [] }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link', 'image', 'clean']                        // remove formatting button
+        ]
+    };
 
     // Category management state
     const [newCatName, setNewCatName] = useState("");
@@ -17,28 +31,10 @@ const Admin = ({ decks, categories, onSave }) => {
         feather.replace();
     }, []);
 
-    const wrapSelection = (before, after = "") => {
-        const el = editorRef.current;
-        if (!el) return;
-        const start = el.selectionStart || 0;
-        const end = el.selectionEnd || 0;
-        const value = newCardInput;
-        const selected = value.slice(start, end) || "nội dung";
-        const next =
-            value.slice(0, start) + before + selected + after + value.slice(end);
-        setNewCardInput(next);
-        requestAnimationFrame(() => {
-            el.focus();
-            const cursor = start + before.length + selected.length + after.length;
-            el.setSelectionRange(cursor, cursor);
-        });
-    };
-
     const insertImage = () => {
         const url = editorImageUrl.trim();
         if (!url) return;
-        const tag = `<img src="${url}" alt="image" />`;
-        wrapSelection(tag, "");
+        setNewCardInput(prev => prev + `< img src = "${url}" alt = "image" /> `);
         setEditorImageUrl("");
     };
 
@@ -67,12 +63,60 @@ const Admin = ({ decks, categories, onSave }) => {
     };
 
     const deleteCategory = (id) => {
-        if (window.confirm(`Bạn có chắc muốn xóa danh mục "${id}" và tất cả thẻ trong đó?`)) {
+        if (window.confirm(`Bạn có chắc muốn xóa danh mục "${id}" và tất cả thẻ trong đó ? `)) {
             const updatedCategories = categories.filter(c => c.id !== id);
             const updatedDecks = { ...decks };
             delete updatedDecks[id];
             onSave(updatedCategories, updatedDecks);
             if (editorDeck === id) setEditorDeck(updatedCategories[0]?.id || "");
+        }
+    };
+
+    const handleAIFormat = async () => {
+        if (!newCardInput.trim()) {
+            alert("Vui lòng nhập nội dung cần trình bày trước!");
+            return;
+        }
+
+        let apiKey = localStorage.getItem("GEMINI_API_KEY");
+        if (!apiKey) {
+            apiKey = prompt("Vui lòng nhập Gemini API Key của bạn để sử dụng tính năng AI (chỉ cần nhập 1 lần):");
+            if (!apiKey) return;
+            localStorage.setItem("GEMINI_API_KEY", apiKey.trim());
+        }
+
+        setIsAiLoading(true);
+        try {
+            const genAI = new GoogleGenerativeAI(apiKey);
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+            const promptText = `
+Bạn là một chuyên gia trình bày nội dung cho Flashcard học tập.
+Hãy định dạng lại nội dung dưới đây thành HTML thật đẹp và trực quan.
+Sử dụng các thẻ HTML cơ bản (<b>, <i>, <ul>, <li>, <h3>, <p>, <br>) hoặc các class Tailwind phổ biến (như text-xl, font-bold, text-indigo-600, mb-4, v.v...) để nội dung dễ đọc nhất.
+Sử dụng emoji phù hợp để làm nổi bật các tiêu đề hoặc ý chính.
+Biến các gạch đầu dòng hoặc số thứ tự thủ công thành cấu trúc danh sách <ul> <li> hợp lý.
+Chỉ trả về trực tiếp MÃ HTML, TUYỆT ĐỐI KHÔNG bọc trong markdown code block (không dùng \`\`\`html).
+
+Nội dung gốc cần trình bày lại:
+${newCardInput}
+            `;
+
+            const result = await model.generateContent(promptText);
+            let responseText = result.response.text();
+
+            // Dọn dẹp markdown code block nếu AI vô tình thêm vào
+            responseText = responseText.replace(/^\`\`\`html/i, "").replace(/^\`\`\`/i, "").replace(/\`\`\`$/i, "").trim();
+
+            setNewCardInput(responseText);
+        } catch (error) {
+            console.error("AI Error:", error);
+            alert("Có lỗi xảy ra khi gọi AI: " + error.message);
+            if (error.message.includes("API key not valid") || error.status === 403) {
+                localStorage.removeItem("GEMINI_API_KEY");
+            }
+        } finally {
+            setIsAiLoading(false);
         }
     };
 
@@ -158,7 +202,7 @@ const Admin = ({ decks, categories, onSave }) => {
 
                     <div className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-2">
+                            <div className="space-y-2 md:col-span-2">
                                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Chọn danh mục</label>
                                 <select
                                     className="admin-input appearance-none bg-no-repeat bg-[right_1rem_center]"
@@ -170,31 +214,23 @@ const Admin = ({ decks, categories, onSave }) => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Công cụ nhanh</label>
-                                <div className="flex gap-2 h-[52px]">
-                                    <button className="flex-1 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors font-bold" onClick={() => wrapSelection("<b>", "</b>")}>B</button>
-                                    <button className="flex-1 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors italic font-serif text-lg" onClick={() => wrapSelection("<i>", "</i>")}>I</button>
-                                    <button className="flex-1 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors text-xs font-bold" onClick={() => wrapSelection("<br/>", "")}>LINE</button>
-                                    <div className="flex-1 relative overflow-hidden rounded-xl border border-slate-200">
-                                        <input type="color" className="absolute -inset-2 w-[200%] h-[200%] cursor-pointer" value={editorColor} onChange={(e) => setEditorColor(e.target.value)} />
-                                    </div>
-                                </div>
+                        </div>
+
+                        <div className="space-y-2 relative">
+                            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Nội dung (Trình soạn thảo kiểu CMS)</label>
+                            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 quill-container">
+                                <ReactQuill
+                                    theme="snow"
+                                    value={newCardInput}
+                                    onChange={setNewCardInput}
+                                    modules={modules}
+                                    placeholder="Nội dung chi tiết của bạn..."
+                                    className="h-64"
+                                />
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Nội dung (HTML)</label>
-                            <textarea
-                                ref={editorRef}
-                                className="admin-input h-48 resize-none"
-                                placeholder="Ví dụ: <b>Tiêu đề</b><br>Nội dung chi tiết của bạn..."
-                                value={newCardInput}
-                                onChange={(e) => setNewCardInput(e.target.value)}
-                            />
-                        </div>
-
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 pt-12">
                             <input
                                 className="flex-1 admin-input"
                                 placeholder="Link hình ảnh minh họa (tùy chọn)"
@@ -203,6 +239,18 @@ const Admin = ({ decks, categories, onSave }) => {
                             />
                             <button className="admin-btn admin-btn-secondary whitespace-nowrap" onClick={insertImage}>
                                 Chèn ảnh
+                            </button>
+                            <button
+                                className="admin-btn bg-indigo-600 text-white hover:bg-indigo-700 whitespace-nowrap flex items-center gap-2"
+                                onClick={handleAIFormat}
+                                disabled={isAiLoading}
+                            >
+                                {isAiLoading ? (
+                                    <i data-feather="loader" className="w-5 h-5 animate-spin"></i>
+                                ) : (
+                                    <i data-feather="zap" className="w-5 h-5"></i>
+                                )}
+                                {isAiLoading ? "Đang xử lý..." : "Trình bày bằng AI"}
                             </button>
                         </div>
 
