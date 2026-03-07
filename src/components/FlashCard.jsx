@@ -13,7 +13,7 @@ const FlashCard = ({ flipped, frontContent, backContent, onFlip, index }) => {
           {/* Subtle patterns/glow */}
           <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
 
-          <div className="relative z-10 flex flex-col items-center">
+          <div className="relative flex flex-col items-center">
             <div className="w-16 h-16 mb-8 bg-white/10 rounded-3xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-2xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
               <i
                 data-feather={index === 0 ? "zap" : index === 1 ? "activity" : "award"}
