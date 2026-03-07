@@ -87,7 +87,7 @@ const Home = ({ decks, categories }) => {
                             setActiveDeck(cat.id);
                             resetAllCards();
                         }}
-                        className={`px-8 py-3.5 rounded-[1.5rem] text-sm font-bold transition-all duration-500 ${activeDeck === cat.id
+                        className={`px-4 md:px-8 py-2.5 md:py-3.5 rounded-full md:rounded-[1.5rem] text-xs md:text-sm font-bold transition-all duration-500 ${activeDeck === cat.id
                             ? "bg-indigo-600 text-white shadow-lg shadow-indigo-300 scale-105"
                             : "text-slate-500 hover:text-indigo-600 hover:bg-white/50"
                             }`}
@@ -98,7 +98,7 @@ const Home = ({ decks, categories }) => {
             </motion.div>
 
             {/* Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 mb-20 px-6">
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 mb-20 px-6">
                 {[0, 1, 2].map((index) => (
                     <motion.div
                         key={index}
@@ -153,8 +153,8 @@ const Home = ({ decks, categories }) => {
                                     <i data-feather="x" className="w-5 h-5"></i>
                                 </button>
                             </div>
-                            <div className="modal-body p-10 max-h-[70vh] overflow-y-auto">
-                                <div className="prose prose-indigo max-w-none">
+                            <div className="modal-body p-6 md:p-10 max-h-[70vh] overflow-y-auto overflow-x-hidden break-words">
+                                <div className="prose prose-indigo max-w-none break-words">
                                     {parse(modalContent)}
                                 </div>
                             </div>
