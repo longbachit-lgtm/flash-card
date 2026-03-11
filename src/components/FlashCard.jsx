@@ -44,7 +44,7 @@ const FlashCard = ({ flipped, frontContent, backContent, onFlip, index }) => {
           </div>
 
           <div className="w-full text-center font-medium text-slate-800 leading-relaxed overflow-y-auto max-h-[300px] scroll-hide px-2">
-            <div className="prose prose-sm prose-slate prose-img:rounded-xl prose-img:shadow-sm">
+            <div className="prose prose-sm prose-slate prose-img:rounded-xl prose-img:shadow-sm break-words whitespace-pre-wrap">
               {parse(backContent || "Đang tải lời khuyên...")}
             </div>
           </div>

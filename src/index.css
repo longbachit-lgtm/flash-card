@@ -157,3 +157,8 @@ body {
 .quill-container .ql-container {
   min-height: 180px;
 }
+.card-back .prose, .card-back .prose * {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
